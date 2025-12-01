@@ -33,7 +33,8 @@ const navItems = [
   { label: "ROM Hacks", href: "#romhacks" },
 ];
 
-const ASSET_HOST = "https://static.pokemon-lazarus.net";
+const ASSET_HOST =
+  process.env.NEXT_PUBLIC_ASSET_HOST || "https://static.pokemon-lazarus.net";
 
 const latestUpdates: SpotlightCard[] = [
   {
@@ -310,8 +311,10 @@ export default function Home() {
   const [activeCatalog, setActiveCatalog] = useState<"pokedex" | "tools">(
     "pokedex",
   );
-  const [logoSrc, setLogoSrc] = useState(`${ASSET_HOST}/logo.webp`);
-  const [heroSrc, setHeroSrc] = useState(`${ASSET_HOST}/hero-index.avif`);
+  const cdnLogo = ASSET_HOST ? `${ASSET_HOST}/logo.webp` : "/logo.webp";
+  const cdnHero = ASSET_HOST ? `${ASSET_HOST}/hero-index.avif` : "/hero-index.avif";
+  const [logoSrc, setLogoSrc] = useState(cdnLogo);
+  const [heroSrc, setHeroSrc] = useState(cdnHero);
   const [shareMessage, setShareMessage] = useState("Share with friends");
   const [openFaq, setOpenFaq] = useState<string | null>(null);
 
@@ -455,6 +458,7 @@ export default function Home() {
                 height={54}
                 className="rounded-xl border border-[rgba(255,255,255,0.2)] bg-[rgba(255,255,255,0.06)] p-1"
                 priority
+                unoptimized
                 onError={() => setLogoSrc("/logo.webp")}
               />
               <div>
@@ -502,6 +506,7 @@ export default function Home() {
                 priority
                 className="object-cover"
                 style={{ imageRendering: "pixelated" }}
+                unoptimized
                 onError={() => setHeroSrc("/hero-index.avif")}
               />
               <div className="absolute inset-0 bg-gradient-to-b from-[rgba(10,14,32,0.45)] via-[rgba(10,14,32,0.35)] to-[rgba(10,14,32,0.85)]" />
