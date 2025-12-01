@@ -5,11 +5,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://pokemon-lazarus.net"),
   title: {
-    default: "Pokémon Lazarus | Ilios Region Fan Portal",
-    template: "%s | Pokémon Lazarus",
+    default: "Pokémon Lazarus Download | Ilios Region ROM Hack Hub",
+    template: "%s | Pokémon Lazarus ROM Hack",
   },
   description:
-    "Explore Pokémon Lazarus with download help, Pokédex data, cheats, tools, and a vibrant community built for the Ilios region ROM hack.",
+    "Download Pokémon Lazarus safely, browse the Ilios Pokédex and mythic forms, grab cheats, tools, and guides to beat the ROM hack without crashes.",
   alternates: {
     canonical: "https://pokemon-lazarus.net/",
   },
@@ -22,9 +22,9 @@ export const metadata: Metadata = {
     "pokemon cheats",
   ],
   openGraph: {
-    title: "Pokémon Lazarus | Ilios Region Fan Portal",
+    title: "Pokémon Lazarus Download | Ilios Region ROM Hack Hub",
     description:
-      "Guides, Pokédex, tools, download support, and community updates for the Pokémon Lazarus ROM hack.",
+      "Download Pokémon Lazarus safely, browse the Ilios Pokédex and mythic forms, grab cheats, tools, and guides to beat the ROM hack without crashes.",
     url: "https://pokemon-lazarus.net/",
     siteName: "Pokémon Lazarus",
     locale: "en_US",
@@ -32,9 +32,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pokémon Lazarus | Ilios Region Fan Portal",
+    title: "Pokémon Lazarus Download | Ilios Region ROM Hack Hub",
     description:
-      "Download instructions, guides, Pokédex, and community updates for the Pokémon Lazarus ROM hack.",
+      "Download Pokémon Lazarus safely, browse the Ilios Pokédex and mythic forms, grab cheats, tools, and guides to beat the ROM hack without crashes.",
   },
 };
 

@@ -1,8 +1,9 @@
-"use client";
-
-import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { CatalogSection } from "./components/CatalogSection";
+import { FaqAccordion } from "./components/FaqAccordion";
+import { Icon, type IconName } from "./components/Icon";
+import { ImageWithFallback } from "./components/ImageWithFallback";
+import { ShareButton } from "./components/ShareButton";
 
 type SpotlightCard = {
   title: string;
@@ -10,18 +11,6 @@ type SpotlightCard = {
   meta: string;
   tag?: string;
 };
-
-type IconName =
-  | "pokeball"
-  | "pokedex"
-  | "battle"
-  | "laurel"
-  | "column"
-  | "flame"
-  | "compass"
-  | "download"
-  | "dna"
-  | "medusa";
 
 const navItems = [
   { label: "Home", href: "#top" },
@@ -128,6 +117,13 @@ const toolPreviews = [
     meta: "Prevents soft-locks and crash loops.",
     icon: "download" as IconName,
   },
+];
+
+const heroHighlights = [
+  "400+ Pokémon with custom Mythic forms",
+  "Greek-inspired Ilios region and ruins",
+  "Mega Evolutions, day/night, weather quests",
+  "Controller-friendly, mobile-ready build",
 ];
 
 const guides = [
@@ -308,142 +304,8 @@ const romHackList = [
 ];
 
 export default function Home() {
-  const [activeCatalog, setActiveCatalog] = useState<"pokedex" | "tools">(
-    "pokedex",
-  );
-  const cdnLogo = ASSET_HOST ? `${ASSET_HOST}/logo.webp` : "/logo.webp";
-  const cdnHero = ASSET_HOST ? `${ASSET_HOST}/hero-index.avif` : "/hero-index.avif";
-  const [logoSrc, setLogoSrc] = useState(cdnLogo);
-  const [heroSrc, setHeroSrc] = useState(cdnHero);
-  const [shareMessage, setShareMessage] = useState("Share with friends");
-  const [openFaq, setOpenFaq] = useState<string | null>(null);
-
-  const heroHighlights = useMemo(
-    () => [
-      "400+ Pokémon with custom Mythic forms",
-      "Greek-inspired Ilios region and ruins",
-      "Mega Evolutions, day/night, weather quests",
-      "Controller-friendly, mobile-ready build",
-    ],
-    [],
-  );
-
-  const handleShare = async () => {
-    const url = "https://pokemon-lazarus.net";
-    const text = "Explore the Mythical Ilios region in Pokémon Lazarus.";
-    try {
-      if (typeof navigator !== "undefined" && navigator.share) {
-        await navigator.share({ title: "Pokémon Lazarus", text, url });
-        setShareMessage("Shared to your apps");
-        return;
-      }
-      if (typeof navigator !== "undefined" && navigator.clipboard) {
-        await navigator.clipboard.writeText(url);
-        setShareMessage("Link copied");
-        return;
-      }
-      setShareMessage("Share unavailable");
-    } catch {
-      setShareMessage("Share dismissed");
-    }
-  };
-
-  const catalog = activeCatalog === "pokedex" ? pokedexSpotlight : toolPreviews;
-
-  const Icon = ({ name }: { name: IconName }) => {
-    const common = {
-      stroke: "#f8e6a0",
-      strokeWidth: 2.4,
-      strokeLinecap: "round" as const,
-      strokeLinejoin: "round" as const,
-    };
-
-    switch (name) {
-      case "pokeball":
-        return (
-          <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
-            <circle cx="32" cy="32" r="22" fill="#1a2a4a" stroke="#d4af37" strokeWidth="3" />
-            <path d="M10 32h12m20 0h12" {...common} />
-            <circle cx="32" cy="32" r="8" fill="#0f1632" stroke="#f3d777" strokeWidth="3" />
-            <circle cx="32" cy="32" r="3" fill="#f3d777" />
-          </svg>
-        );
-      case "pokedex":
-        return (
-          <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
-            <rect x="16" y="12" width="28" height="40" rx="4" fill="#1a2f60" stroke="#d4af37" strokeWidth="3" />
-            <path d="M20 18h20M20 26h20M20 34h14M20 42h12" {...common} />
-            <circle cx="40" cy="42" r="4" fill="#6b4c9a" stroke="#f3d777" strokeWidth="2.5" />
-          </svg>
-        );
-      case "battle":
-        return (
-          <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
-            <path d="M18 18l12 12-12 12" {...common} />
-            <path d="M34 18l12 12-12 12" {...common} />
-            <circle cx="32" cy="32" r="26" stroke="#d4af37" strokeWidth="2.4" opacity="0.35" />
-          </svg>
-        );
-      case "laurel":
-        return (
-          <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
-            <path d="M20 42c-4-4-6-10-6-16 6 0 12 2 16 6m14 10c4-4 6-10 6-16-6 0-12 2-16 6" {...common} />
-            <path d="M28 32c0 6 2 12 4 16 2-4 4-10 4-16" {...common} />
-          </svg>
-        );
-      case "column":
-        return (
-          <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
-            <rect x="22" y="20" width="20" height="24" rx="2" fill="#16244b" stroke="#d4af37" strokeWidth="3" />
-            <rect x="18" y="14" width="28" height="8" rx="2" fill="#233362" stroke="#f3d777" strokeWidth="2.5" />
-            <rect x="18" y="44" width="28" height="6" rx="2" fill="#233362" stroke="#f3d777" strokeWidth="2.5" />
-            <path d="M24 22v18m6-18v18m6-18v18" {...common} />
-          </svg>
-        );
-      case "flame":
-        return (
-          <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
-            <path d="M32 14c6 8 2 12 8 18 4 4 4 16-8 18-12-2-12-14-8-18 6-6 2-10 8-18z" fill="#d85c29" stroke="#f6d26a" strokeWidth="2.8" />
-            <path d="M28 36c2-3 1-5 4-8 3 3 2 5 4 8 1 3-1 8-4 9-4-1-5-6-4-9z" fill="#f3d777" opacity="0.9" />
-          </svg>
-        );
-      case "compass":
-        return (
-          <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
-            <circle cx="32" cy="32" r="22" fill="#152344" stroke="#d4af37" strokeWidth="3" />
-            <path d="M32 18l6 10-6 18-6-18z" fill="#6b4c9a" stroke="#f6d26a" strokeWidth="2.5" />
-            <circle cx="32" cy="32" r="4" fill="#f6d26a" />
-          </svg>
-        );
-      case "dna":
-        return (
-          <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
-            <path d="M22 16c10 6 10 18 0 24" {...common} />
-            <path d="M42 16c-10 6-10 18 0 24" {...common} />
-            <path d="M24 22h8m-6 8h10m-12 8h12" {...common} />
-          </svg>
-        );
-      case "medusa":
-        return (
-          <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
-            <circle cx="32" cy="30" r="12" fill="#1a2a4a" stroke="#d4af37" strokeWidth="3" />
-            <path d="M22 24c-2-4-6-4-8-2 3 1 4 5 3 7-2 3 0 7 4 6" {...common} />
-            <path d="M42 24c2-4 6-4 8-2-3 1-4 5-3 7 2 3 0 7-4 6" {...common} />
-            <path d="M26 30c1 2 0 4-1 6m13-6c-1 2 0 4 1 6" {...common} />
-            <path d="M28 26h2m4 0h2" {...common} />
-            <path d="M26 36c2 2 10 2 12 0" {...common} />
-          </svg>
-        );
-      case "download":
-      default:
-        return (
-          <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
-            <path d="M32 14v22m0 0l-8-8m8 8 8-8" {...common} />
-            <rect x="14" y="38" width="36" height="10" rx="2" fill="#1a2f60" stroke="#d4af37" strokeWidth="3" />
-          </svg>
-        );
-    }
-  };
+  const logoSrc = `${ASSET_HOST}/logo.webp`;
+  const heroSrc = `${ASSET_HOST}/hero-index.avif`;
 
   return (
     <div id="top" className="page-shell bg-acropolis-trail">
@@ -451,15 +313,14 @@ export default function Home() {
         <header className="mb-6">
           <div className="nav-bar flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <Image
+              <ImageWithFallback
                 src={logoSrc}
+                fallback="/logo.webp"
                 alt="Pokémon Lazarus crest"
                 width={54}
                 height={54}
                 className="rounded-xl border border-[rgba(255,255,255,0.2)] bg-[rgba(255,255,255,0.06)] p-1"
                 priority
-                unoptimized
-                onError={() => setLogoSrc("/logo.webp")}
               />
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-[#c8d4ff]">
@@ -499,15 +360,14 @@ export default function Home() {
         <main className="space-y-12">
           <section className="relative overflow-hidden rounded-2xl border border-[rgba(255,255,255,0.1)]">
             <div className="relative h-[400px] w-full rounded-2xl md:h-[520px]">
-              <Image
+              <ImageWithFallback
                 src={heroSrc}
+                fallback="/hero-index.avif"
                 alt="Pokémon Lazarus hero"
                 fill
                 priority
                 className="object-cover"
                 style={{ imageRendering: "pixelated" }}
-                unoptimized
-                onError={() => setHeroSrc("/hero-index.avif")}
               />
               <div className="absolute inset-0 bg-gradient-to-b from-[rgba(10,14,32,0.45)] via-[rgba(10,14,32,0.35)] to-[rgba(10,14,32,0.85)]" />
               <div className="absolute inset-0 flex flex-col justify-end p-5 md:p-8">
@@ -545,12 +405,10 @@ export default function Home() {
                   href="https://www.youtube.com/results?search_query=pokemon+lazarus+trailer"
                   target="_blank"
                   rel="noreferrer"
-                  >
+                >
                     Watch Trailer
                   </a>
-                  <button className="btn-ghost" onClick={handleShare}>
-                    {shareMessage}
-                  </button>
+                  <ShareButton className="btn-ghost" />
                 </div>
                 <div className="badge-row pt-3">
                   {heroHighlights.map((item) => (
@@ -568,7 +426,7 @@ export default function Home() {
             <div className="section-header">
               <div>
                 <p className="tag">Latest news</p>
-                <h3 className="section-title">Stay ahead of v1.1 changes</h3>
+                <h2 className="section-title">Stay ahead of v1.1 changes</h2>
                 <p className="section-subtitle">
                   Fresh patch info, mythic quest unlocks, and download health so you always play the most stable build.
                 </p>
@@ -595,7 +453,7 @@ export default function Home() {
                       <Icon name={item.tag === "Patch" ? "download" : item.tag === "Story" ? "column" : "pokedex"} />
                     </span>
                     {item.tag && <span className="tag">{item.tag}</span>}
-                    <h4 className="text-lg font-bold text-white">{item.title}</h4>
+                    <h3 className="text-lg font-bold text-white">{item.title}</h3>
                   </div>
                   <p className="text-[#d0dbff]">{item.description}</p>
                   <p className="text-sm text-[#b5c6ff]">{item.meta}</p>
@@ -614,7 +472,7 @@ export default function Home() {
                     <span className="icon-badge">
                       <Icon name={feature.icon} />
                     </span>
-                    <h4 className="text-lg font-black text-white">{feature.title}</h4>
+                    <h3 className="text-lg font-black text-white">{feature.title}</h3>
                   </div>
                   <p className="mt-2 text-sm text-[#d4e0ff]">{feature.description}</p>
                 </div>
@@ -622,87 +480,14 @@ export default function Home() {
             </div>
           </section>
 
-          <section id="pokedex" className="section">
-            <div className="greek-line mb-4" />
-            <div className="section-header">
-              <div>
-                <p className="tag">Data hub</p>
-                <h3 className="section-title">Pokédex & tools preview</h3>
-                <p className="section-subtitle">
-                  Quick-look entries, custom mythic forms, and the utilities the community uses to beat Ilios in style.
-                </p>
-              </div>
-              <div className="flex gap-2">
-                <button
-                  className={`pixel-btn secondary ${activeCatalog === "pokedex" ? "border-[#d4af37] text-white" : ""}`}
-                  onClick={() => setActiveCatalog("pokedex")}
-                >
-                  Pokédex
-                </button>
-                <button
-                  className={`pixel-btn secondary ${activeCatalog === "tools" ? "border-[#d4af37] text-white" : ""}`}
-                  onClick={() => setActiveCatalog("tools")}
-                >
-                  Tools
-                </button>
-              </div>
-            </div>
-            <div className="grid-3">
-              {catalog.map((item) => (
-                <div key={item.title} className="pixel-card flex flex-col gap-2">
-                  <div className="flex items-center gap-3">
-                    {"icon" in item && item.icon ? (
-                      <span className="icon-badge">
-                        <Icon name={(item as typeof toolPreviews[number]).icon} />
-                      </span>
-                    ) : null}
-                    <h4 className="text-lg font-black text-white">{item.title}</h4>
-                  </div>
-                  <p className="text-[#d0dbff]">{item.description}</p>
-                  <p className="text-sm text-[#b5c6ff]">{item.meta}</p>
-                </div>
-              ))}
-            </div>
-            <div className="glass mt-4 grid gap-4 p-5 md:grid-cols-2">
-              <div className="pixel-card">
-                <p className="tag">Pokémon Showcase</p>
-                <p className="mt-2 text-[#dbe6ff]">
-                  Swipe through Ilios favorites and unlock mythic forms without spoilers.
-                </p>
-                <div className="btn-row pt-3">
-                  <Link className="btn-primary" href="/pokedex">
-                    Open Pokédex
-                  </Link>
-                  <Link className="btn-ghost" href="/tools">
-                    Try Team Builder
-                  </Link>
-                </div>
-              </div>
-              <div className="pixel-showcase">
-                {["Litten", "Chespin", "Sprigatito", "Rowlet", "Froakie", "Fuecoco"].map(
-                  (name) => (
-                    <div
-                      key={name}
-                      className="pixel-frame text-center"
-                    >
-                      <p className="text-sm uppercase tracking-wide text-[#c7d6ff]">
-                        Starter
-                      </p>
-                      <p className="text-white text-lg font-black">{name}</p>
-                      <p className="text-sm text-[#b5c6ff]">Mythic ready</p>
-                    </div>
-                  ),
-                )}
-              </div>
-            </div>
-          </section>
+          <CatalogSection pokedex={pokedexSpotlight} tools={toolPreviews} />
 
           <section id="guides" className="section">
             <div className="greek-line mb-4" />
             <div className="section-header">
               <div>
                 <p className="tag">Guides & cheats</p>
-                <h3 className="section-title">How to play and stay crash-free</h3>
+                <h2 className="section-title">How to play and stay crash-free</h2>
                 <p className="section-subtitle">
                   Download instructions, tested cheat codes, and safety notes to keep your run stable across PC and mobile.
                 </p>
@@ -723,7 +508,7 @@ export default function Home() {
                     <span className="icon-badge">
                       <Icon name={guide.title.includes("Cheat") ? "pokedex" : "download"} />
                     </span>
-                    <h4 className="text-xl font-black text-white">{guide.title}</h4>
+                    <h3 className="text-xl font-black text-white">{guide.title}</h3>
                   </div>
                   <ul className="space-y-2 text-sm text-[#d4e0ff]">
                     {guide.steps.map((step) => (
@@ -738,34 +523,15 @@ export default function Home() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="tag">FAQ</p>
-                    <h4 className="text-lg font-black text-white">Common questions</h4>
+                    <h3 className="text-lg font-black text-white">Common questions</h3>
                   </div>
                   <span className="pill">Spoiler safe</span>
                 </div>
-                <div className="mt-3 space-y-2">
-                  {faqItems.map((item) => {
-                    const open = openFaq === item.question;
-                    return (
-                      <button
-                        key={item.question}
-                        className="w-full rounded-xl border border-[rgba(255,255,255,0.14)] bg-[rgba(255,255,255,0.04)] p-3 text-left transition hover:border-[rgba(212,175,55,0.6)]"
-                        onClick={() => setOpenFaq(open ? null : item.question)}
-                      >
-                        <div className="flex items-center justify-between gap-3">
-                          <p className="font-semibold text-white">{item.question}</p>
-                          <span className="text-sm text-[#d4af37]">{open ? "–" : "+"}</span>
-                        </div>
-                        {open && (
-                          <p className="mt-2 text-sm text-[#d4e0ff]">{item.answer}</p>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
+                <FaqAccordion items={faqItems} />
               </div>
               <div className="pixel-card">
                 <p className="tag">Loading indicator</p>
-                <h4 className="text-lg font-black text-white">Patch prep monitor</h4>
+                <h3 className="text-lg font-black text-white">Patch prep monitor</h3>
                 <p className="text-sm text-[#d4e0ff]">
                   We track the steps you complete so nothing breaks mid-run.
                 </p>
@@ -805,7 +571,7 @@ export default function Home() {
             <div className="section-header">
               <div>
                 <p className="tag">Game info</p>
-                <h3 className="section-title">What you are downloading</h3>
+                <h2 className="section-title">What you are downloading</h2>
                 <p className="section-subtitle">
                   Quick facts for Pokémon Lazarus v1.1 so new visitors know the build, platform, and status.
                 </p>
@@ -835,7 +601,7 @@ export default function Home() {
                 </div>
                 <div className="pixel-card flex flex-col gap-3">
                   <p className="tag">At a glance</p>
-                  <h4 className="text-lg font-black text-white">v1.1 full release</h4>
+                  <h3 className="text-lg font-black text-white">v1.1 full release</h3>
                   <p className="text-sm text-[#d4e0ff]">
                     Fan-made ROM hack set in the Ilios region with Greek myth themes, built on Pokémon Emerald and
                     tuned for GBA emulators across PC and mobile.
@@ -861,7 +627,7 @@ export default function Home() {
             <div className="section-header">
               <div>
                 <p className="tag">Download</p>
-                <h3 className="section-title">Install Pokémon Lazarus in minutes</h3>
+                <h2 className="section-title">Install Pokémon Lazarus in minutes</h2>
                 <p className="section-subtitle">
                   Platform-specific steps and the official mirror so you can start safely on any device.
                 </p>
@@ -885,7 +651,7 @@ export default function Home() {
                     <span className="icon-badge">
                       <Icon name={platform.icon} />
                     </span>
-                    <h4 className="text-lg font-black text-white">{platform.title}</h4>
+                    <h3 className="text-lg font-black text-white">{platform.title}</h3>
                   </div>
                   <ul className="space-y-2 text-sm text-[#d4e0ff]">
                     {platform.steps.map((step) => (
@@ -899,7 +665,7 @@ export default function Home() {
               <div className="section-header">
                 <div>
                   <p className="tag">Safety</p>
-                  <h4 className="section-title">Clean patch, clean saves</h4>
+                  <h3 className="section-title">Clean patch, clean saves</h3>
                   <p className="section-subtitle">
                     Borrowed from the official fan site so you stay crash-free and legal.
                   </p>
@@ -921,7 +687,7 @@ export default function Home() {
             <div className="section-header">
               <div>
                 <p className="tag">Cheats</p>
-                <h3 className="section-title">Safe-mode codes from the community</h3>
+                <h2 className="section-title">Safe-mode codes from the community</h2>
                 <p className="section-subtitle">
                   Verified codes mirrored from the official fan site with stability warnings baked in.
                 </p>
@@ -938,7 +704,7 @@ export default function Home() {
             <div className="grid-2">
               <div className="pixel-card">
                 <p className="tag">Codes</p>
-                <h4 className="text-lg font-black text-white">Use and toggle safely</h4>
+                <h3 className="text-lg font-black text-white">Use and toggle safely</h3>
                 <div className="mt-3 space-y-2">
                   {cheatCodes.map((cheat) => (
                     <div
@@ -956,7 +722,7 @@ export default function Home() {
               </div>
               <div className="pixel-card">
                 <p className="tag">Rules</p>
-                <h4 className="text-lg font-black text-white">Stay in-bounds</h4>
+                <h3 className="text-lg font-black text-white">Stay in-bounds</h3>
                 <div className="mt-3 space-y-2 text-sm text-[#d4e0ff]">
                   <p>• Only use one master cheat at a time; disable before story beats.</p>
                   <p>• Keep fast-forward off during scripted events to avoid soft-locks.</p>
@@ -985,7 +751,7 @@ export default function Home() {
             <div className="section-header">
               <div>
                 <p className="tag">Community</p>
-                <h3 className="section-title">See what trainers are doing</h3>
+                <h2 className="section-title">See what trainers are doing</h2>
                 <p className="section-subtitle">
                   Forum previews keep you in the loop — challenge seeds, spoilers, and meta talk in one glance.
                 </p>
@@ -1008,7 +774,7 @@ export default function Home() {
                     </span>
                     <div>
                       <p className="tag">{thread.meta}</p>
-                      <h4 className="text-lg font-black text-white">{thread.title}</h4>
+                      <h3 className="text-lg font-black text-white">{thread.title}</h3>
                     </div>
                   </div>
                   <p className="text-[#d0dbff]">{thread.description}</p>
@@ -1026,17 +792,17 @@ export default function Home() {
             <div className="glass mt-4 grid gap-3 p-5 md:grid-cols-3">
               <div className="pixel-card border border-[rgba(212,175,55,0.35)]">
                 <p className="tag">Download support</p>
-                <h4 className="text-xl font-black text-white">Live help</h4>
+                <h3 className="text-xl font-black text-white">Live help</h3>
                 <p className="text-sm text-[#d4e0ff]">Share emulator screenshots and get fixes fast.</p>
               </div>
               <div className="pixel-card">
                 <p className="tag">Creator updates</p>
-                <h4 className="text-xl font-black text-white">Devlog pings</h4>
+                <h3 className="text-xl font-black text-white">Devlog pings</h3>
                 <p className="text-sm text-[#d4e0ff]">Ko-fi posts and PokemonLazarusGame.com links, verified.</p>
               </div>
               <div className="pixel-card">
                 <p className="tag">Engagement</p>
-                <h4 className="text-xl font-black text-white">Stay longer</h4>
+                <h3 className="text-xl font-black text-white">Stay longer</h3>
                 <p className="text-sm text-[#d4e0ff]">
                   Quizzes, spoiler-safe lore, and showcase reels keep playtime exciting.
                 </p>
@@ -1049,7 +815,7 @@ export default function Home() {
             <div className="section-header">
               <div>
                 <p className="tag">Tools</p>
-                <h3 className="section-title">Utility deck for Ilios</h3>
+                <h2 className="section-title">Utility deck for Ilios</h2>
                 <p className="section-subtitle">
                   Plan teams, log encounters, and verify patches with lightweight utilities built for Pokémon Lazarus.
                 </p>
@@ -1069,7 +835,7 @@ export default function Home() {
                   <span className="icon-badge">
                     <Icon name="compass" />
                   </span>
-                  <h4 className="text-lg font-black text-white">Encounter tracker</h4>
+                  <h3 className="text-lg font-black text-white">Encounter tracker</h3>
                 </div>
                 <p className="mt-1 text-[#d0dbff]">
                   Log first encounters, shiny odds, and time-of-day spawns with spoiler-safe notes.
@@ -1085,7 +851,7 @@ export default function Home() {
                   <span className="icon-badge">
                     <Icon name="battle" />
                   </span>
-                  <h4 className="text-lg font-black text-white">Team builder</h4>
+                  <h3 className="text-lg font-black text-white">Team builder</h3>
                 </div>
                 <p className="mt-1 text-[#d0dbff]">
                   Coverage heatmaps, synergy pairing, and EV presets for Hardcore or casual runs.
@@ -1104,7 +870,7 @@ export default function Home() {
             <div className="section-header">
               <div>
                 <p className="tag">Related ROM hacks</p>
-                <h3 className="section-title">Keep exploring</h3>
+                <h2 className="section-title">Keep exploring</h2>
                 <p className="section-subtitle">
                   Discover more polished ROM hacks from PokeHarbor and the community so you always have a next adventure.
                 </p>
@@ -1125,7 +891,7 @@ export default function Home() {
                     <span className="icon-badge">
                       <Icon name={hack.icon} />
                     </span>
-                    <h4 className="text-lg font-black text-white">{hack.title}</h4>
+                    <h3 className="text-lg font-black text-white">{hack.title}</h3>
                   </div>
                   <p className="text-sm text-[#d4e0ff]">{hack.meta}</p>
                   <span className="pill">ROM hack spotlight</span>
@@ -1137,7 +903,7 @@ export default function Home() {
 
         <footer className="footer">
           <div className="flex flex-col gap-3">
-            <h4 className="text-lg font-black text-white">SEO overview</h4>
+            <h3 className="text-lg font-black text-white">SEO overview</h3>
             <p>
               Pokémon Lazarus is a Mythic Ilios region ROM hack experience inspired by Greek legends,
               built on Pokémon Emerald. This site curates download guides, Pokédex data, safe-mode cheats,
