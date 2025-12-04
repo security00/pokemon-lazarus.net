@@ -14,6 +14,7 @@ type SpotlightCard = {
 
 const navItems = [
   { label: "Home", href: "#top" },
+  { label: "Play", href: "#play-online" },
   { label: "Pokédex", href: "#pokedex" },
   { label: "Guides", href: "#guides" },
   { label: "Tools", href: "#tools" },
@@ -303,6 +304,9 @@ const romHackList = [
   },
 ];
 
+const onlinePlayUrl =
+  "https://ext.minijuegos.com/pokemon-lazarus/emujs/play.php?c=gba&f=lazarus1.gba&mp_assets=https%3A%2F%2Fs2.minijuegosgratis.com%2F&mp_embed=0&mp_game_id=255482&mp_game_uid=pokemon-lazarus&mp_game_url=https%3A%2F%2Fwww.miniplay.com%2Fgame%2Fpokemon-lazarus&mp_int=1&mp_locale=en_US&mp_player_type=IFRAME&mp_site_https_url=https%3A%2F%2Fwww.miniplay.com%2F&mp_site_name=miniplay.com&mp_site_url=https%3A%2F%2Fwww.miniplay.com%2F&mp_timezone=Asia%2FShanghai&mp_view_type=";
+
 export default function Home() {
   const logoSrc = `${ASSET_HOST}/logo.webp`;
   const heroSrc = `${ASSET_HOST}/hero-index.avif`;
@@ -358,66 +362,22 @@ export default function Home() {
         </header>
 
         <main className="space-y-12">
-          <section className="relative overflow-hidden rounded-2xl border border-[rgba(255,255,255,0.1)]">
-            <div className="relative h-[400px] w-full rounded-2xl md:h-[520px]">
-              <ImageWithFallback
-                src={heroSrc}
-                fallback="/hero-index.avif"
-                alt="Pokémon Lazarus hero"
-                fill
-                priority
-                className="object-cover"
-                style={{ imageRendering: "pixelated" }}
+          <section
+            id="play-online"
+            className="relative overflow-hidden rounded-2xl border border-[rgba(255,255,255,0.1)]"
+          >
+            <div
+              className="relative w-full rounded-2xl"
+              style={{ minHeight: "calc(100vh - 140px)" }}
+            >
+              <iframe
+                title="Play Pokémon Lazarus online"
+                src={onlinePlayUrl}
+                className="absolute inset-0 h-full w-full border-0"
+                allow="autoplay; fullscreen; camera; clipboard-read; clipboard-write"
+                allowFullScreen
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-[rgba(10,14,32,0.45)] via-[rgba(10,14,32,0.35)] to-[rgba(10,14,32,0.85)]" />
-              <div className="absolute inset-0 flex flex-col justify-end p-5 md:p-8">
-                <div className="flex flex-wrap items-center gap-3">
-                  <span className="pill gold text-xs font-bold uppercase tracking-[0.12em]">
-                    v1.1 patch live
-                  </span>
-                  <span className="pill text-sm">Safe download mirrors</span>
-                  <span className="pill text-sm">Controller friendly</span>
-                </div>
-                <h2 className="mt-3 text-3xl font-black leading-tight text-white drop-shadow md:text-5xl">
-                  Explore the Mythical Ilios Region — 400+ Pokémon await.
-                </h2>
-                <p className="mt-3 max-w-3xl text-lg text-[#f1f5ff] drop-shadow">
-                  Retro pixel adventure meets Greek mythology. Mega Evolutions, day/night quests, and
-                  mythic encounters tuned for marathon runs.
-                </p>
-                <div className="btn-row pt-4">
-                  <Link className="pixel-btn" href="/download">
-                    Download Now
-                  </Link>
-                <Link className="pixel-btn secondary" href="/download">
-                  Official Mirror
-                </Link>
-                <a
-                  className="btn-ghost"
-                  href="https://ko-fi.com/nemo622"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Support creator
-                </a>
-                <a
-                  className="btn-ghost"
-                  href="https://www.youtube.com/results?search_query=pokemon+lazarus+trailer"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                    Watch Trailer
-                  </a>
-                  <ShareButton className="btn-ghost" />
-                </div>
-                <div className="badge-row pt-3">
-                  {heroHighlights.map((item) => (
-                    <span key={item} className="chip">
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[rgba(9,12,26,0.35)] via-[rgba(9,12,26,0.2)] to-[rgba(9,12,26,0.5)]" />
             </div>
           </section>
 
