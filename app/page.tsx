@@ -29,13 +29,13 @@ const ASSET_HOST =
 const latestUpdates: SpotlightCard[] = [
   {
     title: "v1.1 Ilios Dawn",
-    description: "New day-night balance, overworld polish, and stability fixes for long runs.",
+    description: "New day-night balance for Pokémon Lazarus, overworld polish, and stability fixes for long runs.",
     meta: "Released Nov 14 — recommended for Nuzlocke players.",
     tag: "Patch",
   },
   {
     title: "New Mythic Encounters",
-    description: "Track down Titan Zapdos and Aegis Lugia in the Temple of Athena questline.",
+    description: "Track down Titan Zapdos and Aegis Lugia inside the Pokémon Lazarus Temple of Athena questline.",
     meta: "Adds 3 side quests, 2 mythic cutscenes, and badge buffs.",
     tag: "Story",
   },
@@ -50,12 +50,12 @@ const latestUpdates: SpotlightCard[] = [
 const featurePillars = [
   {
     title: "GBC Retro Graphics",
-    description: "Pixel-perfect retro art that keeps the handheld feel of Ilios ruins and coasts.",
+    description: "Pixel-perfect retro art that keeps the Pokémon Lazarus handheld feel of Ilios ruins and coasts.",
     icon: "pokeball" as IconName,
   },
   {
     title: "Greek Mythology Theme",
-    description: "A mythic storyline grounded in Greek legends, temples, and hero trials.",
+    description: "A mythic storyline in Pokémon Lazarus grounded in Greek legends, temples, and hero trials.",
     icon: "medusa" as IconName,
   },
   {
@@ -273,6 +273,12 @@ const communityThreads = [
 
 const romHackList = [
   {
+    title: "Pokémon Emerald Imperium",
+    meta: "Radical Red-inspired Emerald hack with Gen 1-9 roster, custom Megas, and online patcher.",
+    icon: "compass" as IconName,
+    href: "/emerald-imperium",
+  },
+  {
     title: "Pokémon Emerald Seaglass",
     meta: "Exploration-heavy ROM hack with QoL and event reroutes.",
     icon: "compass" as IconName,
@@ -388,7 +394,7 @@ export default function Home() {
                 <p className="tag">Latest news</p>
                 <h2 className="section-title">Stay ahead of v1.1 changes</h2>
                 <p className="section-subtitle">
-                  Fresh patch info, mythic quest unlocks, and download health so you always play the most stable build.
+                  Fresh Pokémon Lazarus patch info, mythic quest unlocks, and download health so you always play the most stable build.
                 </p>
               </div>
               <div className="btn-row">
@@ -449,7 +455,7 @@ export default function Home() {
                 <p className="tag">Guides & cheats</p>
                 <h2 className="section-title">How to play and stay crash-free</h2>
                 <p className="section-subtitle">
-                  Download instructions, tested cheat codes, and safety notes to keep your run stable across PC and mobile.
+                  Pokémon Lazarus download instructions, tested cheat codes, and safety notes to keep your run stable across PC and mobile.
                 </p>
               </div>
               <div className="btn-row">
@@ -589,7 +595,7 @@ export default function Home() {
                 <p className="tag">Download</p>
                 <h2 className="section-title">Install Pokémon Lazarus in minutes</h2>
                 <p className="section-subtitle">
-                  Platform-specific steps and the official mirror so you can start safely on any device.
+                  Platform-specific steps and the official Pokémon Lazarus mirror so you can start safely on any device.
                 </p>
               </div>
               <div className="btn-row">
@@ -627,7 +633,7 @@ export default function Home() {
                   <p className="tag">Safety</p>
                   <h3 className="section-title">Clean patch, clean saves</h3>
                   <p className="section-subtitle">
-                    Borrowed from the official fan site so you stay crash-free and legal.
+                    Borrowed from the official Pokémon Lazarus fan site so you stay crash-free and legal.
                   </p>
                 </div>
                 <span className="pill">v1.1 ready</span>
@@ -649,7 +655,7 @@ export default function Home() {
                 <p className="tag">Cheats</p>
                 <h2 className="section-title">Safe-mode codes from the community</h2>
                 <p className="section-subtitle">
-                  Verified codes mirrored from the official fan site with stability warnings baked in.
+                  Verified Pokémon Lazarus codes mirrored from the official fan site with stability warnings baked in.
                 </p>
               </div>
               <div className="btn-row">
@@ -713,7 +719,7 @@ export default function Home() {
                 <p className="tag">Community</p>
                 <h2 className="section-title">See what trainers are doing</h2>
                 <p className="section-subtitle">
-                  Forum previews keep you in the loop — challenge seeds, spoilers, and meta talk in one glance.
+                  Pokémon Lazarus forum previews keep you in the loop — challenge seeds, spoilers, and meta talk in one glance.
                 </p>
               </div>
               <div className="btn-row">
@@ -832,7 +838,7 @@ export default function Home() {
                 <p className="tag">Related ROM hacks</p>
                 <h2 className="section-title">Keep exploring</h2>
                 <p className="section-subtitle">
-                  Discover more polished ROM hacks from PokeHarbor and the community so you always have a next adventure.
+                  Discover more polished ROM hacks from PokeHarbor and the community when you finish a Pokémon Lazarus run so you always have a next adventure.
                 </p>
               </div>
               <a
@@ -854,7 +860,15 @@ export default function Home() {
                     <h3 className="text-lg font-black text-white">{hack.title}</h3>
                   </div>
                   <p className="text-sm text-[#d4e0ff]">{hack.meta}</p>
-                  <span className="pill">ROM hack spotlight</span>
+                  {hack.href ? (
+                    <div className="btn-row pt-2">
+                      <Link className="btn-secondary" href={hack.href}>
+                        Read guide
+                      </Link>
+                    </div>
+                  ) : (
+                    <span className="pill">ROM hack spotlight</span>
+                  )}
                 </div>
               ))}
             </div>
